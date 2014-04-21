@@ -1,6 +1,11 @@
+require './lib/plane'
+require "./lib/weather"
+
 class Airport
 
-   def initialize(capacity = 99)
+   include Weather
+
+   def initialize(capacity = 7)
       @planes=[]
       @capacity = capacity
    end
@@ -10,13 +15,23 @@ class Airport
    end
 
    def land(plane)
-      if @capacity > @planes.count
+      raise "full" if is_full?
+      if is_stormy?
+         puts "You cant land the plane, sorry."
+      else
          @planes << plane
          plane.land
-      else
-         raise "Sorry maximum capacity is reached."
+         return "There are now #{plane_count} planes at the airport"  #
       end
-      puts "There are now #{plane_count} planes at the airport"
+      # remember to ask Enrique
+
+      # else
+      #    raise "Sorry maximum capacity is reached."
+      # end
+   end
+
+   def is_full?
+      @capacity == plane_count
    end
 
    def has_planes?
@@ -24,15 +39,17 @@ class Airport
    end
 
    def plane_count
-      @planes.count
+      planes.count
    end
 
    def take_off(plane)
-      @planes.delete(plane)
-      plane.take_off
-      puts "There are now #{plane_count} planes at the airport"
+      if is_stormy?
+         return "You cant take off with this weather!"
+      else
+         @planes.delete(plane)
+         plane.take_off
+          # "There are now #{plane_count} planes at the airport"
+      end
    end
-
-
 
 end

@@ -2,8 +2,13 @@ module Weather
 
    attr_accessor :stormy
 
-   def weather
-      @stormy = true
+   def initialize
+      @stormy = false
+   end
+
+   def is_stormy?
+      @stormy = [true,false].sample
+      # @stormy = false
    end
 
 
