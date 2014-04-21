@@ -1,5 +1,4 @@
 module Weather
-
    attr_accessor :stormy
 
    def initialize
@@ -10,6 +9,4 @@ module Weather
       @stormy = [true,false].sample
       # @stormy = false
    end
-
-
 end

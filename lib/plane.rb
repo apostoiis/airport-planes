@@ -1,9 +1,8 @@
 class Plane
-
-   def initialize
-      land
+   def initialize(name="")
+      @name=name
+      land!
    end
-
 
    def flying?
       @flying
@@ -15,10 +14,8 @@ class Plane
       self
    end
 
-   def land
+   def land!
       @flying = false
       self
    end
-
-
 end

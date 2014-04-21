@@ -2,7 +2,6 @@ require './lib/plane'
 require "./lib/weather"
 
 class Airport
-
    include Weather
 
    def initialize(capacity = 7)
@@ -14,20 +13,16 @@ class Airport
       @planes
    end
 
-   def land(plane)
+   def land!(plane)
       raise "full" if is_full?
       if is_stormy?
          puts "You cant land the plane, sorry."
       else
          @planes << plane
-         plane.land
+         plane.land!
          return "There are now #{plane_count} planes at the airport"  #
       end
       # remember to ask Enrique
-
-      # else
-      #    raise "Sorry maximum capacity is reached."
-      # end
    end
 
    def is_full?
@@ -51,5 +46,4 @@ class Airport
           # "There are now #{plane_count} planes at the airport"
       end
    end
-
 end
