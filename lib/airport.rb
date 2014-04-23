@@ -14,15 +14,11 @@ class Airport
    end
 
    def land!(plane)
-      raise "full" if is_full?
-      if is_stormy?
-         puts "You cant land the plane, sorry."
-      else
-         @planes << plane
-         plane.land!
-         return "There are now #{plane_count} planes at the airport"  #
-      end
-      # remember to ask Enrique
+      raise "You can't land the plane, it's full." if is_full?
+      raise "You cant land the plane, really bad weather, sorry." if is_stormy?
+      @planes << plane
+      plane.land!
+      puts "There are now #{plane_count} planes at the airport"
    end
 
    def is_full?
