@@ -15,6 +15,9 @@ class Airport
 
    def land!(plane)
       raise "full" if is_full?
+      # this is horible!!
+      # but more to the point it doesn't work
+      # you can still land the plane even if it is stormy?
       if is_stormy?
          puts "You cant land the plane, sorry."
       else

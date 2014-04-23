@@ -9,6 +9,7 @@ require './lib/airport'
 describe Plane do
 
 let(:plane)  { Plane.new   }
+# what's the airport for?
 let(:airport) { Airport.new }
 
  it 'is not flying when created' do

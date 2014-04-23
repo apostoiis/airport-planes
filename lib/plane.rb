@@ -8,6 +8,7 @@ class Plane
       @flying
    end
 
+   # be consistent if land has a bang then take off should have a bang
    def take_off
       @flying = true
       # airport.take_off(self)
