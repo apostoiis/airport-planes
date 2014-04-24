@@ -1,5 +1,5 @@
 require './lib/plane'
-require "./lib/weather"
+require './lib/weather'
 
 class Airport
    include Weather
@@ -15,17 +15,9 @@ class Airport
 
    def land!(plane)
       raise "full" if is_full?
-      # this is horible!!
-      # but more to the point it doesn't work
-      # you can still land the plane even if it is stormy?
-      if is_stormy?
-         puts "You cant land the plane, sorry."
-      else
-         @planes << plane
-         plane.land!
-         return "There are now #{plane_count} planes at the airport"  #
-      end
-      # remember to ask Enrique
+      raise "You can't land the plane" if is_stormy?
+      plane.land!
+      @planes << plane
    end
 
    def is_full?

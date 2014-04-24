@@ -23,13 +23,13 @@ describe Airport do
 
   it 'knows how many planes are in the aiport' do
     4.times {airport.land!(plane)}
-    expect(airport.plane_count).to eq(4)
+    expect(airport.plane_count).to eq 4
   end
 
   it 'a plane can take off' do
     airport.land!(plane)
     airport.take_off(plane)
-    expect(airport.plane_count).to eq(0)
+    expect(airport.plane_count).to eq 0
   end
 
   it 'if it parks a plane it is no longer flying' do
@@ -47,14 +47,13 @@ describe Airport do
     airport.land!(plane)
     airport.stub(:is_stormy?).and_return(true)
     airport.take_off(plane)
-    expect(airport.plane_count).to eq(1)
+    expect(airport.plane_count).to eq 1
   end
 
   it 'if the weather is stormy, a plane cant land!' do
     airport.take_off(plane)
     airport.stub(:is_stormy?).and_return(true)
-    airport.land!(plane)
-    expect(airport.plane_count).to eq 0
+    expect{airport.land!(plane)}.to raise_error "You can't land the plane"
   end
 
   it '6 planes must land! and then take off allowing for weather' do
