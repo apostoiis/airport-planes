@@ -1,30 +1,39 @@
-require './lib/plane'
-require './lib/airport'
-
-# We have planes and airport(s), planes can land and take off and the aiport has a fixed capacity beyond which no more planes can land. On initialization, planes are not flying, each plane has a name. Weather is random, either sunny or stormy, planes can neither land nor take off when weather is stormy
-
-
-# Nice to have: Planes should be created in a hangar (not flying) and transporter can take them to the airport.
+require 'plane'
 
 describe Plane do
+  let(:plane)  { Plane.new("Boieng 747") }
 
-let(:plane)  { Plane.new   }
-# what's the airport for?
-let(:airport) { Airport.new }
+  context "on initialization" do
+    it 'has a name' do
+      expect(plane.name).to eq "Boieng 747"
+    end
 
- it 'is not flying when created' do
-  expect(plane.flying?).to be_false
- end
+    it 'is flying' do
+      expect(plane).to be_flying
+    end
+  end
 
- it 'can take off' do
-  plane.take_off
-  expect(plane.flying?).to be_true
- end
+  context "landing and taking off" do
+    it 'should be able to land' do
+      expect(plane).to be_flying
+      plane.land!
+      expect(plane).not_to be_flying
+    end
 
- it 'can land' do
-  plane.take_off
-  plane.land!
-  expect(plane.flying?).to be_false
- end
+    it 'should be able to take off' do
+      plane.land!
+      expect(plane).not_to be_flying
+      plane.take_off!
+      expect(plane).to be_flying
+    end
+
+    it "shouldn't be able to take off if it's flying" do
+      expect { plane.take_off! }.to raise_error "The plane is already flying! you stupid fuck"
+    end
+
+    it "shouldn't be able to land if it's not flying" do
+      plane.land!
+      expect { plane.land! }.to raise_error "The plane is already landed! you stupid fuck"
+    end
+  end
 end
-

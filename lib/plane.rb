@@ -1,22 +1,23 @@
 class Plane
-   def initialize(name="")
-      @name=name
-      land!
-   end
+  attr_reader :name
 
-   def flying?
-      @flying
-   end
+  def initialize(name)
+    @name = name
+    take_off!
+  end
+  def flying?
+    @flying
+  end
 
-   # be consistent if land has a bang then take off should have a bang
-   def take_off
-      @flying = true
-      # airport.take_off(self)
-      self
-   end
+  def land!
+    raise "The plane is already landed! you stupid fuck" unless flying?
+    @flying = false
+    self
+  end
 
-   def land!
-      @flying = false
-      self
-   end
+  def take_off!
+    raise "The plane is already flying! you stupid fuck" if flying?
+    @flying = true
+    self
+  end
 end

@@ -1,62 +1,70 @@
 require 'airport'
 require 'plane'
-require 'weather'
 
 describe Airport do
-  let(:airport) { Airport.new }
-  let(:plane)   { Plane.new   }
+  let(:airport) { Airport.new("Luton", 5) }
+  let(:plane)   { Plane.new("name")       }
 
-  before(:each) { airport.stub(:is_stormy?).and_return(false) }
-
-  it 'is created without any planes' do
-    expect(airport).not_to have_planes
+  before(:each) do
+    airport.stub(:weather_stormy?).and_return false
   end
 
-  it 'can park a plane' do
-    airport.land!(plane)
-    expect(airport).to have_planes
+  context "on initializion" do
+    it 'has a default capacity' do
+      expect(airport.capacity).to eq 5
+    end
+
+    it 'has a name' do
+      expect(airport.name).to eq "Luton"
+    end
+
+    it 'has no planes' do
+      expect(airport.planes_count).to eq 0
+    end
   end
 
-  it 'is built with a fixed capacity' do
-    expect {8.times {airport.land!(plane)}}.to raise_error
+  context "landing and taking off planes" do
+    it 'can park a plane' do
+      # plane = double :plane
+      # expect(plane).to receive(:land!)
+      airport.park(plane)
+      expect(airport.planes_count).to eq 1
+      expect(plane).not_to be_flying
+    end
+
+    it 'can release a plane' do
+      airport.park(plane)
+      airport.release(plane)
+      expect(airport.planes_count).to eq 0
+      expect(plane).to be_flying
+    end
+
+    it "knows when it's full" do
+      airport.capacity.times {airport.park(Plane.new("trdtr"))}
+      expect(airport).to be_full
+    end
+
+    it "can't park more planes if max capacity reached" do
+      airport.capacity.times {airport.park(Plane.new("trdtr"))}
+      expect{airport.park(Plane.new("yo"))}.to raise_error "You can't park I'm full!"
+    end
   end
 
-  it 'knows how many planes are in the aiport' do
-    4.times {airport.land!(plane)}
-    expect(airport.plane_count).to eq 4
-  end
+  context "weather restrictions" do
+    before(:each) do
+      airport.stub(:weather_stormy?).and_return true
+    end
 
-  it 'a plane can take off' do
-    airport.land!(plane)
-    airport.take_off(plane)
-    expect(airport.plane_count).to eq 0
-  end
+    it 'should know how the weather is like' do
+      expect(airport.weather_stormy?).to be_true
+    end
 
-  it 'if it parks a plane it is no longer flying' do
-    plane.take_off
-    airport.land!(plane)
-    expect(plane.flying?).to be_false
-  end
+    it "can't park planes with weather stormy" do
+      expect{airport.park(plane)}.to raise_error "You can't park the plane due to weather conditions"
+    end
 
-  it 'if it takes off a plane it is flying' do
-    airport.take_off(plane)
-    expect(plane.flying?).to be_true
-  end
-
-  it 'if the weather is stormy, a plane cant take off' do
-    airport.land!(plane)
-    airport.stub(:is_stormy?).and_return(true)
-    airport.take_off(plane)
-    expect(airport.plane_count).to eq 1
-  end
-
-  it 'if the weather is stormy, a plane cant land!' do
-    airport.take_off(plane)
-    airport.stub(:is_stormy?).and_return(true)
-    expect{airport.land!(plane)}.to raise_error "You can't land the plane"
-  end
-
-  it '6 planes must land! and then take off allowing for weather' do
-    (1..6).each_with_index {|num,index| Plane.new(index)}
+    it "can't take off planes with weather stormy" do
+      expect{airport.release(plane)}.to raise_error "You can't take off the plane due to weather conditions"
+    end
   end
 end

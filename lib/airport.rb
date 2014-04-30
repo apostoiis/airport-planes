@@ -1,44 +1,35 @@
-require './lib/plane'
-require './lib/weather'
+require_relative 'weather'
 
 class Airport
-   include Weather
 
-   def initialize(capacity = 7)
-      @planes=[]
-      @capacity = capacity
-   end
+  include Weather
 
-   def planes
-      @planes
-   end
+  attr_reader :name, :capacity, :planes
 
-   def land!(plane)
-      raise "full" if is_full?
-      raise "You can't land the plane" if is_stormy?
-      plane.land!
-      @planes << plane
-   end
+  def initialize(name, capacity=5)
+    @name     = name
+    @capacity = capacity
+    @planes   = []
+  end
 
-   def is_full?
-      @capacity == plane_count
-   end
+  def planes_count
+    planes.count
+  end
 
-   def has_planes?
-      @planes.any?
-   end
+  def park(plane)
+    raise "You can't park the plane due to weather conditions" if weather_stormy?
+    raise "You can't park I'm full!" if full?
+    planes << plane
+    plane.land!
+  end
 
-   def plane_count
-      planes.count
-   end
+  def full?
+    capacity == planes_count
+  end
 
-   def take_off(plane)
-      if is_stormy?
-         return "You cant take off with this weather!"
-      else
-         @planes.delete(plane)
-         plane.take_off
-          # "There are now #{plane_count} planes at the airport"
-      end
-   end
+  def release(plane)
+    raise "You can't take off the plane due to weather conditions" if weather_stormy?
+    planes.delete(plane)
+    plane.take_off!
+  end
 end
