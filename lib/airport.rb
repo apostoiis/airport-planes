@@ -19,8 +19,8 @@ class Airport
   def park(plane)
     raise "You can't park the plane due to weather conditions" if weather_stormy?
     raise "You can't park I'm full!" if full?
-    planes << plane
     plane.land!
+    planes << plane
   end
 
   def full?
@@ -29,7 +29,7 @@ class Airport
 
   def release(plane)
     raise "You can't take off the plane due to weather conditions" if weather_stormy?
-    planes.delete(plane)
     plane.take_off!
+    planes.delete(plane)
   end
 end
