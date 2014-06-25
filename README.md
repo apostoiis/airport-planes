@@ -38,7 +38,7 @@ How to use
 ---------------
 
 ```
-clone git@github.com:Maikon/airport_test.git
+clone git@github.com:apostoiis/airport-planes.git
 cd airport-planes
 rspec
 ```
