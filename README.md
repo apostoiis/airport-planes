@@ -33,3 +33,13 @@ object oriented model of airports and planes in Ruby.
 | can be clear for take offs and landings      |               |
 
 ![Airports](/images/logo.jpg)
+
+How to use
+---------------
+
+```
+clone git@github.com:Maikon/airport_test.git
+cd airport-planes
+rspec
+```
+
