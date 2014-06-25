@@ -40,6 +40,6 @@ How to use
 ```
 clone git@github.com:Maikon/airport_test.git
 cd airport-planes
-rspec
+[![rspec](https://codeclimate.com/github/apostoiis/airport-planes.png)](https://codeclimate.com/github/apostoiis/airport-planes)
 ```
 
