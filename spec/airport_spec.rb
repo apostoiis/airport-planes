@@ -56,7 +56,7 @@ describe Airport do
     end
 
     it 'should know how the weather is like' do
-      expect(airport.weather_stormy?).to be_true
+      expect(airport.weather_stormy?).to be true
     end
 
     it "can't park planes with weather stormy" do

@@ -5,6 +5,7 @@ class Plane
     @name = name
     take_off!
   end
+
   def flying?
     @flying
   end
